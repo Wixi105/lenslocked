@@ -11,9 +11,9 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 )
 
-func homeHandler(w http.ResponseWriter, r *http.Request) {
+func executeTemplate(w http.ResponseWriter, temp string) {
 	w.Header().Set("Content-Type", "text/html;charset=utf-8")
-	tplPath := filepath.Join("templates", "home.gohtml")
+	tplPath := filepath.Join("templates", temp)
 	tpl, err := template.ParseFiles(tplPath)
 	if err != nil {
 		log.Printf("Failed to load template: %v", err)
@@ -29,9 +29,15 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func homeHandler(w http.ResponseWriter, r *http.Request) {
+	temp := "home.gohtml"
+	executeTemplate(w, temp)
+}
+
 func contactHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/html;charset=utf-8")
-	fmt.Fprint(w, "<h1> Contact me</h1> <p>To get in touch, email me at <a href=\"mailto:ericsampson109@gmail.com\">ericsampson@gmail.com</a></p>")
+	temp := "contact.gohtml"
+	executeTemplate(w, temp)
+
 }
 
 func faqHandler(w http.ResponseWriter, r *http.Request) {
