@@ -41,16 +41,8 @@ func contactHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func faqHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	fmt.Fprint(w, `<h1>Frequently Asked Questions</h1>
-	
-	<ul>
-		<li>Can we get a Free Trial? Yes, free trials are available</li>
-		<li>How many people can signup for this event? 300 people per ticket</li>
-		<li>Is this difficult? No, not at all. If you do your best, you will be well rewarded.</li>
-	</ul>
-	
-	`)
+	temp := "faq.gohtml"
+	executeTemplate(w, temp)
 }
 
 func articleHandler(w http.ResponseWriter, r *http.Request) {
