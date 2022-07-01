@@ -2,31 +2,30 @@ package main
 
 import (
 	"fmt"
-	"html/template"
 	"log"
 	"net/http"
 	"path/filepath"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/wixi105/lenslocked/views"
 )
 
 func executeTemplate(w http.ResponseWriter, temp string) {
+
 	w.Header().Set("Content-Type", "text/html;charset=utf-8")
+
 	tplPath := filepath.Join("templates", temp)
-	tpl, err := template.ParseFiles(tplPath)
+
+	tpl, err := views.Parse(tplPath)
 	if err != nil {
-		log.Printf("Failed to load template: %v", err)
-		http.Error(w, "There was a problem loading the template", http.StatusInternalServerError)
+		log.Printf("Parsing template: %v", err)
+		http.Error(w, "There was an error parsing the template", http.StatusInternalServerError)
 		return
 	}
 
-	err = tpl.Execute(w, nil)
-	if err != nil {
-		log.Printf("Executing Template: %v", err)
-		http.Error(w, "There was a problem executing the template", http.StatusInternalServerError)
-		return
-	}
+	tpl.Execute(w, nil)
+
 }
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
